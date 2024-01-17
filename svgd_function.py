@@ -67,6 +67,7 @@ def build_kernel(optimizer: optax.GradientTransformation):
         -------
         SVGDState containing new particles, optimizer state and kernel parameters.
         """
+        print(state)
         particles, kernel_params, opt_state = state
         kernel = functools.partial(kernel, **kernel_params)
 
