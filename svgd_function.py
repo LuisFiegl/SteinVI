@@ -9,6 +9,8 @@ from jax.flatten_util import ravel_pytree
 from blackjax.base import SamplingAlgorithm
 from blackjax.types import ArrayLikeTree, ArrayTree
 
+import numpy as np
+
 __all__ = ["svgd", "rbf_kernel", "update_median_heuristic"]
 
 
@@ -67,8 +69,16 @@ def build_kernel(optimizer: optax.GradientTransformation):
         -------
         SVGDState containing new particles, optimizer state and kernel parameters.
         """
-        print(state)
-        particles, kernel_params, opt_state = state
+        particles_raw, kernel_params, opt_state = state
+
+        #opt_state[0][1]
+        #opt_state[0][2] müssen indiziert werden
+
+        selected_indices = np.array([1, 3, 5, 7])
+        not_selected_indices = np.setdiff1d(np.arange(len(particles_raw)), selected_indices)
+        particles = particles_raw[selected_indices]
+        not_selected_particles = particles_raw[not_selected_indices]
+
         kernel = functools.partial(kernel, **kernel_params)
 
         def phi_star_summand(particle, particle_):
@@ -86,7 +96,10 @@ def build_kernel(optimizer: optax.GradientTransformation):
         updates, opt_state = optimizer.update(functional_gradient, opt_state, particles)
         particles = optax.apply_updates(particles, updates)
 
-        return SVGDState(particles, kernel_params, opt_state)
+        particles_new = particles_raw.at[selected_indices].set(particles)
+        particles_new = particles_new.at[not_selected_indices].set(not_selected_particles)
+
+        return SVGDState(particles_new, kernel_params, opt_state)
 
     return kernel
 
