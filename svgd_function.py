@@ -73,6 +73,8 @@ def build_kernel(optimizer: optax.GradientTransformation):
 
         #opt_state[0][1]
         #opt_state[0][2] müssen indiziert werden
+        # get rid of it (pass step size, change source code)
+        # modify it for easier optimizer 
 
         selected_indices = np.array([1, 3, 5, 7])
         not_selected_indices = np.setdiff1d(np.arange(len(particles_raw)), selected_indices)
