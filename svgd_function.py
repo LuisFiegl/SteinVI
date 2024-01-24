@@ -46,6 +46,8 @@ def build_kernel(optimizer: optax.GradientTransformation):
         state: SVGDState,
         grad_logdensity_fn: Callable,
         kernel: Callable,
+        selected_indices: Callable,
+        not_selected_indices: Callable,
         **grad_params,
     ) -> SVGDState:
         """
@@ -74,10 +76,8 @@ def build_kernel(optimizer: optax.GradientTransformation):
         #opt_state[0][1]
         #opt_state[0][2] müssen indiziert werden
         # get rid of it (pass step size, change source code)
-        # modify it for easier optimizer 
+        # modify it for easier optimizer
 
-        selected_indices = np.array([1, 3, 5, 7])
-        not_selected_indices = np.setdiff1d(np.arange(len(particles_raw)), selected_indices)
         particles = particles_raw[selected_indices]
         not_selected_particles = particles_raw[not_selected_indices]
 
@@ -176,8 +176,8 @@ class svgd:
         ):
             return cls.init(initial_position, kernel_parameters, optimizer)
 
-        def step_fn(state, **grad_params):
-            state = kernel_(state, grad_logdensity_fn, kernel, **grad_params)
+        def step_fn(state,selected_indices, not_selected_indices, **grad_params):
+            state = kernel_(state, grad_logdensity_fn, kernel, jnp.array(selected_indices), jnp.array(not_selected_indices), **grad_params)
             return update_kernel_parameters(state)
 
         return SamplingAlgorithm(init_fn, step_fn)  # type: ignore[arg-type]
