@@ -73,11 +73,6 @@ def build_kernel(optimizer: optax.GradientTransformation):
         """
         particles_raw, kernel_params, opt_state = state
 
-        #opt_state[0][1]
-        #opt_state[0][2] müssen indiziert werden
-        # get rid of it (pass step size, change source code)
-        # modify it for easier optimizer
-
         particles = particles_raw[selected_indices]
         not_selected_particles = particles_raw[not_selected_indices]
 
