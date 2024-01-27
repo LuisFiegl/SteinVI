@@ -7,7 +7,7 @@ import optax
 from jax.flatten_util import ravel_pytree
 
 from blackjax.base import SamplingAlgorithm
-from blackjax.types import ArrayLikeTree, ArrayTree
+from blackjax.types import ArrayLikeTree, ArrayTree, Array
 
 import numpy as np
 
@@ -46,8 +46,7 @@ def build_kernel(optimizer: optax.GradientTransformation):
         state: SVGDState,
         grad_logdensity_fn: Callable,
         kernel: Callable,
-        selected_indices: Callable,
-        not_selected_indices: Callable,
+        selected_indices: Array,
         **grad_params,
     ) -> SVGDState:
         """
@@ -74,7 +73,6 @@ def build_kernel(optimizer: optax.GradientTransformation):
         particles_raw, kernel_params, opt_state = state
 
         particles = particles_raw[selected_indices]
-        not_selected_particles = particles_raw[not_selected_indices]
 
         kernel = functools.partial(kernel, **kernel_params)
 
@@ -94,7 +92,6 @@ def build_kernel(optimizer: optax.GradientTransformation):
         particles = optax.apply_updates(particles, updates)
 
         particles_new = particles_raw.at[selected_indices].set(particles)
-        particles_new = particles_new.at[not_selected_indices].set(not_selected_particles)
 
         return SVGDState(particles_new, kernel_params, opt_state)
 
@@ -171,8 +168,8 @@ class svgd:
         ):
             return cls.init(initial_position, kernel_parameters, optimizer)
 
-        def step_fn(state,selected_indices, not_selected_indices, **grad_params):
-            state = kernel_(state, grad_logdensity_fn, kernel, jnp.array(selected_indices), jnp.array(not_selected_indices), **grad_params)
+        def step_fn(state,selected_indices, **grad_params):
+            state = kernel_(state, grad_logdensity_fn, kernel, jnp.array(selected_indices), **grad_params)
             return update_kernel_parameters(state)
 
         return SamplingAlgorithm(init_fn, step_fn)  # type: ignore[arg-type]
