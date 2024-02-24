@@ -117,6 +117,7 @@ def get_predictions(model, samples, X, rng_key):
 def get_mean_predictions(predictions, threshold=0.5):
     # compute mean prediction and confidence interval around median
     mean_prediction = jnp.mean(predictions, axis=0)
+    print(mean_prediction[3])
     return mean_prediction > threshold
 
 def logprior_fn(params):
@@ -178,6 +179,9 @@ def fit_and_eval(
     Y_pred_train = get_mean_predictions(predictions)
     predictions = get_predictions(model, samples, X_test, test_key)
     Y_pred_test = get_mean_predictions(predictions)
-    #pred_grid = get_predictions(model, samples, grid, grid_key)
+    if grid != None:
+        pred_grid = get_predictions(model, samples, grid, grid_key)
+    else:
+        pred_grid = grid
 
-    return Y_pred_train, Y_pred_test #, pred_grid
+    return Y_pred_train, Y_pred_test, pred_grid
