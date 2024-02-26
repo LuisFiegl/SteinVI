@@ -2,14 +2,13 @@ import functools
 from typing import Any, Callable, NamedTuple
 
 import jax
+from jax import jit
 import jax.numpy as jnp
 import optax
 from jax.flatten_util import ravel_pytree
 
 from blackjax.base import SamplingAlgorithm
 from blackjax.types import ArrayLikeTree, ArrayTree, Array
-
-import numpy as np
 
 __all__ = ["svgd", "rbf_kernel", "update_median_heuristic"]
 
@@ -97,12 +96,12 @@ def build_kernel(optimizer: optax.GradientTransformation):
 
     return kernel
 
-
+@jit
 def rbf_kernel(x, y, length_scale=1):
     arg = ravel_pytree(jax.tree_util.tree_map(lambda x, y: (x - y) ** 2, x, y))[0]
     return jnp.exp(-(1 / length_scale) * arg.sum())
 
-
+@jit
 def median_heuristic(kernel_parameters, particles):
     particle_array = jax.vmap(lambda p: ravel_pytree(p)[0])(particles)
 

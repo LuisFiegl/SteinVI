@@ -1,7 +1,5 @@
 import jax
-from jax import jit
 
-from datetime import date
 from functools import partial
 from warnings import filterwarnings
 
@@ -9,8 +7,6 @@ import jax.numpy as jnp
 import numpy as np
 import tensorflow_probability.substrates.jax.distributions as tfd
 
-from sklearn.datasets import make_moons
-from sklearn.preprocessing import scale
 from jax.flatten_util import ravel_pytree
 
 from tqdm import tqdm
@@ -23,28 +19,25 @@ import matplotlib as mpl
 
 cmap = mpl.colormaps["coolwarm"]
 
-@jit
-def rbf_kernel(x, y, length_scale=1):
-    arg = ravel_pytree(jax.tree_util.tree_map(lambda x, y: (x - y) ** 2, x, y))[0]
-    return jnp.exp(-(1 / length_scale) * arg.sum())
-
-@jit
-def median_heuristic(kernel_parameters, particles):
-    particle_array = jax.vmap(lambda p: ravel_pytree(p)[0])(particles)
-
-    def distance(x, y):
-        return jnp.linalg.norm(jnp.atleast_1d(x - y))
-
-    vmapped_distance = jax.vmap(jax.vmap(distance, (None, 0)), (0, None))
-    A = vmapped_distance(particle_array, particle_array)  # Calculate distance matrix
-    pairwise_distances = A[
-        jnp.tril_indices(A.shape[0], k=-1)
-    ]  # Take values below the main diagonal into a vector
-    median = jnp.median(pairwise_distances)
-    kernel_parameters["length_scale"] = (median**2) / jnp.log(particle_array.shape[0])
-    return kernel_parameters
-
 def minibatch_selection(num_particles, num_steps, batch_size, rng_key):
+    """Performs a mini-batch selection on the SVGD particles for the inference loop.
+
+    Parameters
+    ----------
+    num_particles
+        Number of particles
+    num_steps
+        Number of steps we use in our inference loop
+    batch_size
+        Number of particles contained in one mini-batch
+    rng_key
+        Key of type jax._src.prng.PRNGKeyArrayImpl
+
+    Returns
+    -------
+    Mini-batched particles for every step of the inference loop
+    """
+
     all_params = jnp.arange(0, num_particles)
     num_batches_per_epoch = num_particles//batch_size
     num_epochs = round((num_steps / num_batches_per_epoch)+0.49)
@@ -63,6 +56,24 @@ def minibatch_selection(num_particles, num_steps, batch_size, rng_key):
     return selected_params
 
 class DataLoader:
+    """Class to perform a mini-batch selection on the data for the inference loop.
+
+    Parameters
+    ----------
+    X
+        X data
+    Y
+        Y data
+    batch_size
+        Number of datapoints contained in one mini-batch
+    shuffle
+        If True: Randomly shuffle the minibatches across all given datapoints
+
+    Returns
+    -------
+    Mini-batched datapoints which can be accessed by calling the next() function
+    """
+
     def __init__(self, X, Y, batch_size=32, shuffle=True):
         self.X = X
         self.Y = Y
@@ -89,9 +100,36 @@ class DataLoader:
 
         return batch_X, batch_Y
 
-def inference_loop(rng_key,Xs_train, Ys_train, step_fn, initial_state, num_samples, num_particles, batch_size_particles, batch_size_data):
+def inference_loop(rng_key, Xs_train, Ys_train, step_fn, initial_state, num_steps, num_particles, batch_size_particles, batch_size_data):
+    """Performs a full inference loop to train the model on the given data
 
-    all_indices = jnp.array(minibatch_selection(num_particles, num_samples, batch_size_particles, rng_key))
+    Parameters
+    ----------
+    rng_key
+        Key of type jax._src.prng.PRNGKeyArrayImpl
+    Xs_train
+        X train-data
+    Ys_train
+        Y train-data
+    step_fn
+        Step function of a SVGD object
+    initial_state
+        Initial state of a SVGD object
+    num_steps
+        Number of steps we use in our inference loop
+    num_particles
+        Number of particles
+    batch_size_particles
+        Number of particles contained in one mini-batch
+    batch_size_data
+        Number of datapoints contained in one mini-batch
+
+    Returns
+    -------
+    Final state of a SVGD object after performing a full mini-batched inference loop over the data and particles
+    """
+
+    all_indices = jnp.array(minibatch_selection(num_particles, num_steps, batch_size_particles, rng_key))
     
     dataloader = DataLoader(Xs_train, Ys_train, batch_size=batch_size_data, shuffle=True)
 
@@ -143,11 +181,45 @@ def fit_and_eval(
     Y_train,
     X_test,
     grid,
-    num_samples=400,
+    num_steps=400,
     batch_size_particles = 20,
     batch_size_data = 32,
     num_particles = 200
 ):
+    """Fits a BNN on train-data using Stein-Variational-Gradient-Descent (SVGD) and evaluates it on test-data
+
+    Parameters
+    ----------
+    rng_key
+        Key of type jax._src.prng.PRNGKeyArrayImpl
+    model
+        (FLAX linen) BNN model
+    logdensity_fn
+        Target log density function
+    X_train
+        X train-data
+    Y_train
+        Y train-data
+    X_test
+        X test-data
+    grid
+        Array as a grid to visualize the estimates
+    num_steps
+        Number of steps we use in our inference loop
+    batch_size_particles
+        Number of particles contained in one mini-batch
+    batch_size_data
+        Number of datapoints contained in one mini-batch
+    num_particles
+        Number of particles
+
+    Returns
+    -------
+    Predictions for the target variable Y on the train-data
+    Predictions for the target variable Y on the test-data
+    (Optional) A grid to visualize the uncertainty of the predictions
+    """
+    
     (
         init_key,
         inference_key,
@@ -165,12 +237,11 @@ def fit_and_eval(
     num_bnn_parameters = sum(p.size for p in jax.tree_util.tree_flatten(initial_position)[0])
     initial_particles = jax.random.normal(jax.random.PRNGKey(3),shape=(num_particles,num_bnn_parameters))
 
-    #optax.adam(0.3)
-    svgd = svgd_function.svgd(jax.grad(logprob), optax.sgd(0.3), rbf_kernel, svgd_function.update_median_heuristic)
-    initial_state = svgd.init(initial_particles, median_heuristic({"length_scale": 1}, initial_particles))
+    svgd = svgd_function.svgd(jax.grad(logprob), optax.sgd(0.3), svgd_function.rbf_kernel, svgd_function.update_median_heuristic)
+    initial_state = svgd.init(initial_particles, svgd_function.median_heuristic({"length_scale": 1}, initial_particles))
     
     step_fn = jax.jit(svgd.step)
-    final_state = inference_loop(inference_key,X_train, Y_train, step_fn, initial_state, num_samples, num_particles, batch_size_particles, batch_size_data)
+    final_state = inference_loop(inference_key,X_train, Y_train, step_fn, initial_state, num_steps, num_particles, batch_size_particles, batch_size_data)
 
     particle_dicts = final_state.particles
     samples = jnp.apply_along_axis(unravel_fct, arr=particle_dicts, axis=1)
