@@ -11,7 +11,8 @@ from jax.flatten_util import ravel_pytree
 
 from tqdm import tqdm
 import optax
-import svgd_function as svgd_function
+
+import modules.svgd_function as svgd_function
 
 filterwarnings("ignore")
 import matplotlib as mpl
