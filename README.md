@@ -13,7 +13,7 @@ This repository introduces a **stochastic version of Stein Variational Inference
 
 ## Example usage:
 
-Creating an initial SVGD state, using a BNN:
+**Creating an initial SVGD state, using a BNN:**
 
 ```py
 initial_position = model.init(init_key, jnp.ones(X_train.shape[-1]))
@@ -28,7 +28,7 @@ svgd = svgd_function.svgd(jax.grad(logprob), optax.sgd(0.3), svgd_function.rbf_k
 initial_state = svgd.init(initial_particles, svgd_function.median_heuristic({"length_scale": 1}, initial_particles))
 ```
 
-Fitting and evaluating a Flax BNN with stochastic SVGD:
+**Fitting and evaluating a Flax BNN with stochastic SVGD:**
 
 ```py
 hidden_layer_width = 5
