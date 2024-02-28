@@ -1,3 +1,7 @@
+- [Introduction](#introduction)
+- [Examples](#examples)
+  - [Finance](examples/finance.md)
+
 # Welcome to Blackjax!
 
 ```{warning}
