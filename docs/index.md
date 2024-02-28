@@ -1,6 +1,6 @@
 - [Introduction](#introduction)
 - [Examples](#examples)
-  - [Finance](examples/finance.md)
+  - [Finance](Examples/finance.md)
 - [Conclusion](#conclusion)
 
 # Introduction
