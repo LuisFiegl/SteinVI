@@ -37,11 +37,15 @@ def yfinance_labeler(df, hold_period, upper_lower_multipliers):
     df = df.reindex(vol_df.index)
     prices = df["Close"]
     labels = []
+    upper_bounds = []
+    lower_bounds = []
 
     for row in range(0,len(vol_df)):
         if ((len(vol_df)-row) - hold_period) > 0:
             upper_bound = prices[row] + prices[row] * upper_lower_multipliers[0] * vol_df[row]
+            upper_bounds.append(upper_bound)
             lower_bound = prices[row] - prices[row] * upper_lower_multipliers[1] * vol_df[row]
+            lower_bounds.append(lower_bound)
             
             pot_bucket = np.array(list(prices[row+1: row+1+hold_period]))
             index_up_min = None
@@ -70,6 +74,9 @@ def yfinance_labeler(df, hold_period, upper_lower_multipliers):
     df["label"] = labels
 
     df_output = df[df["label"] != 12]
+    df_output["upper_bound"] = upper_bounds
+    df_output["lower_bound"] = lower_bounds
+
     return(df_output)
 
 def ichimoku(full_df):

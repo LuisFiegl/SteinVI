@@ -11,24 +11,28 @@ This repository introduces a **stochastic version of Stein Variational Inference
 
 ## Example usage:
 
-**Creating an initial SVGD state, using a BNN:**
-
-```py
-initial_position = model.init(init_key, jnp.ones(X_train.shape[-1]))
-_, unravel_fct = ravel_pytree(initial_position)
-
-logprob = partial(logdensity_fn, model=model, unravel_function = unravel_fct)
-
-num_bnn_parameters = sum(p.size for p in jax.tree_util.tree_flatten(initial_position)[0])
-initial_particles = jax.random.normal(jax.random.PRNGKey(3),shape=(num_particles,num_bnn_parameters))
-
-svgd = svgd_function.svgd(jax.grad(logprob), optax.sgd(0.3), svgd_function.rbf_kernel, svgd_function.update_median_heuristic)
-initial_state = svgd.init(initial_particles, svgd_function.median_heuristic({"length_scale": 1}, initial_particles))
-```
-
 **Fitting and evaluating a Flax BNN with stochastic SVGD:**
+A simple imple self-contained binary classification problem
 
 ```py
+import jax
+import jax.numpy as jnp
+from flax import linen as nn
+import sys, os
+sys.path.insert(0, os.path.abspath(".."))
+from modules.evaluation_functions.bnn_functions import *
+
+key = jax.random.PRNGKey(12)
+n_samples = 100
+
+X = jax.random.uniform(key, shape=(n_samples, 2))
+Y = jnp.sum(X, axis=1) >= 1
+
+Xs_train = X[: n_samples // 2 ,:]
+Xs_test = X[n_samples // 2 :,:]
+Ys_train = Y[: n_samples // 2]
+Ys_test = Y[n_samples // 2 :]
+
 hidden_layer_width = 5
 n_hidden_layers = 2
 
@@ -44,10 +48,9 @@ class NN(nn.Module):
         return nn.Dense(features=1)(x)
 
 bnn = NN(n_hidden_layers, hidden_layer_width)
-```
-```py
-Ys_pred_train, Ys_pred_test, ppc_grid_single = fit_and_eval(
-    eval_key, bnn, logdensity_fn_of_bnn, Xs_train, Ys_train, X_test, grid, num_steps=400,batch_size_particles = 20, batch_size_data = 32, num_particles=200
+
+Ys_pred_train, Ys_pred_test, _, Y_probabilities_train, Y_probabilities_test = fit_and_eval(
+    key, bnn, logdensity_fn_of_bnn, Xs_train, Ys_train, Xs_test, None, num_steps=400,batch_size_particles = 20, batch_size_data = 32, num_particles=200
     )
 ```
 

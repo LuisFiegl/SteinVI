@@ -61,6 +61,8 @@ def build_kernel(optimizer: optax.GradientTransformation):
             gradient, or an estimate, of the target log density function to samples approximately from
         kernel
             positive semi definite kernel
+        selected_indices
+            array of indices of the mini-batched particles that are to be considered for being pushed to a new position
         **grad_params
             additional parameters for `grad_logdensity_fn` function, for instance a minibatch parameter
             on a gradient estimator.

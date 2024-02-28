@@ -155,8 +155,11 @@ def get_predictions(model, samples, X, rng_key):
 def get_mean_predictions(predictions, threshold=0.5):
     # compute mean prediction and confidence interval around median
     mean_prediction = jnp.mean(predictions, axis=0)
-    print(mean_prediction[3])
     return mean_prediction > threshold
+
+def get_probabilities(predictions):
+    probas = jnp.mean(predictions, axis=0)
+    return probas
 
 def logprior_fn(params):
     leaves, _ = jax.tree_util.tree_flatten(params)
@@ -218,6 +221,8 @@ def fit_and_eval(
     Predictions for the target variable Y on the train-data
     Predictions for the target variable Y on the test-data
     (Optional) A grid to visualize the uncertainty of the predictions
+    Probabilities for the target variable Y (being 1) on the train-data
+    Probabilities for the target variable Y (being 1) on the test-data
     """
     
     (
@@ -248,11 +253,15 @@ def fit_and_eval(
 
     predictions = get_predictions(model, samples, X_train, train_key)
     Y_pred_train = get_mean_predictions(predictions)
+    Y_probabilities_train = get_probabilities(predictions)
+
     predictions = get_predictions(model, samples, X_test, test_key)
     Y_pred_test = get_mean_predictions(predictions)
+    Y_probabilities_test = get_probabilities(predictions)
+
     if grid != None:
         pred_grid = get_predictions(model, samples, grid, grid_key)
     else:
         pred_grid = grid
 
-    return Y_pred_train, Y_pred_test, pred_grid
+    return Y_pred_train, Y_pred_test, pred_grid, Y_probabilities_train, Y_probabilities_test
