@@ -1,13 +1,13 @@
 - [Introduction](#introduction)
 - [Examples](#examples)
-  - [Finance](Examples/finance.md)
+  - [Finance](Examples/fin_app.ipynb)
 - [Conclusion](#conclusion)
 
 # Introduction
 Hello..
 
 # Examples
-## [Finance](Examples/finance.md)
+## [Finance](Examples/fin_app.ipynb)
 
 # Notes
 test...

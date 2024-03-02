@@ -2,12 +2,6 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-
-def create_lagged_columns(df, n, target):
-    for i in range(1, n + 1):
-        df[f"{target}_lag_{i}"] = df[target].shift(i)
-    return df
-
 def get_Daily_Volatility(close,span0=20):
     # simple percentage returns
     df0=close.pct_change()
@@ -69,7 +63,6 @@ def yfinance_labeler(df, hold_period, upper_lower_multipliers):
                 labels.append(0) #hier könnte das dritte label stehen
         else:
             labels.append(12)
-    print(len(labels))
     df["vola"] = vol_df
     df["label"] = labels
 

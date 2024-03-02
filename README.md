@@ -32,7 +32,8 @@ Xs_train = X[: n_samples // 2 ,:]
 Xs_test = X[n_samples // 2 :,:]
 Ys_train = Y[: n_samples // 2]
 Ys_test = Y[n_samples // 2 :]
-
+```
+```py
 hidden_layer_width = 5
 n_hidden_layers = 2
 
@@ -48,7 +49,8 @@ class NN(nn.Module):
         return nn.Dense(features=1)(x)
 
 bnn = NN(n_hidden_layers, hidden_layer_width)
-
+```
+```py
 Ys_pred_train, Ys_pred_test, _, Y_probabilities_train, Y_probabilities_test = fit_and_eval(
     key, bnn, logdensity_fn_of_bnn, Xs_train, Ys_train, Xs_test, None, num_steps=400,batch_size_particles = 20, batch_size_data = 32, num_particles=200
     )
