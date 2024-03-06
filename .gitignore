@@ -1,6 +1,5 @@
 # ignore ALL files in directory named "old" and "docs"
 old/
-docs/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
