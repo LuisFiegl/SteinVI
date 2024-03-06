@@ -10,11 +10,10 @@ Welcome to SteinVI's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-
+   bnn_functions
 
 Indices and tables
 ==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+* :ref:`bnn_functions`
+

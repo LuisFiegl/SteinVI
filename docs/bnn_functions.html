@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Parameters &#8212; SteinVI 06.03.2024 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=12dfc556" />
+    <script src="_static/documentation_options.js?v=772a9b84"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to SteinVI’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <dl class="py class" id="module-modules.evaluation_functions.bnn_functions">
+<dt class="sig sig-object py" id="modules.evaluation_functions.bnn_functions.DataLoader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modules.evaluation_functions.bnn_functions.</span></span><span class="sig-name descname"><span class="pre">DataLoader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modules.evaluation_functions.bnn_functions.DataLoader" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to perform a mini-batch selection on the data for the inference loop.</p>
+<section id="parameters">
+<h1>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">¶</a></h1>
+<dl class="simple">
+<dt>X</dt><dd><p>X data</p>
+</dd>
+<dt>Y</dt><dd><p>Y data</p>
+</dd>
+<dt>batch_size</dt><dd><p>Number of datapoints contained in one mini-batch</p>
+</dd>
+<dt>shuffle</dt><dd><p>If True: Randomly shuffle the minibatches across all given datapoints</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h1>Returns<a class="headerlink" href="#returns" title="Link to this heading">¶</a></h1>
+<p>Mini-batched datapoints which can be accessed by calling the next() function</p>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="modules.evaluation_functions.bnn_functions.fit_and_eval">
+<span class="sig-prename descclassname"><span class="pre">modules.evaluation_functions.bnn_functions.</span></span><span class="sig-name descname"><span class="pre">fit_and_eval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rng_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logdensity_fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">400</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size_particles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_particles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modules.evaluation_functions.bnn_functions.fit_and_eval" title="Link to this definition">¶</a></dt>
+<dd><p>Fits a BNN on train-data using Stein-Variational-Gradient-Descent (SVGD) and evaluates it on test-data</p>
+<section id="id1">
+<h1>Parameters<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h1>
+<dl class="simple">
+<dt>rng_key</dt><dd><p>Key of type jax._src.prng.PRNGKeyArrayImpl</p>
+</dd>
+<dt>model</dt><dd><p>(FLAX linen) BNN model</p>
+</dd>
+<dt>logdensity_fn</dt><dd><p>Target log density function</p>
+</dd>
+<dt>X_train</dt><dd><p>X train-data</p>
+</dd>
+<dt>Y_train</dt><dd><p>Y train-data</p>
+</dd>
+<dt>X_test</dt><dd><p>X test-data</p>
+</dd>
+<dt>grid</dt><dd><p>Array as a grid to visualize the estimates</p>
+</dd>
+<dt>num_steps</dt><dd><p>Number of steps we use in our inference loop</p>
+</dd>
+<dt>batch_size_particles</dt><dd><p>Number of particles contained in one mini-batch</p>
+</dd>
+<dt>batch_size_data</dt><dd><p>Number of datapoints contained in one mini-batch</p>
+</dd>
+<dt>num_particles</dt><dd><p>Number of particles</p>
+</dd>
+</dl>
+</section>
+<section id="id2">
+<h1>Returns<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h1>
+<p>Predictions for the target variable Y on the train-data
+Predictions for the target variable Y on the test-data
+(Optional) A grid to visualize the uncertainty of the predictions
+Probabilities for the target variable Y (being 1) on the train-data
+Probabilities for the target variable Y (being 1) on the test-data</p>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="modules.evaluation_functions.bnn_functions.get_mean_predictions">
+<span class="sig-prename descclassname"><span class="pre">modules.evaluation_functions.bnn_functions.</span></span><span class="sig-name descname"><span class="pre">get_mean_predictions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modules.evaluation_functions.bnn_functions.get_mean_predictions" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="modules.evaluation_functions.bnn_functions.get_predictions">
+<span class="sig-prename descclassname"><span class="pre">modules.evaluation_functions.bnn_functions.</span></span><span class="sig-name descname"><span class="pre">get_predictions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng_key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modules.evaluation_functions.bnn_functions.get_predictions" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="modules.evaluation_functions.bnn_functions.get_probabilities">
+<span class="sig-prename descclassname"><span class="pre">modules.evaluation_functions.bnn_functions.</span></span><span class="sig-name descname"><span class="pre">get_probabilities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modules.evaluation_functions.bnn_functions.get_probabilities" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="modules.evaluation_functions.bnn_functions.inference_loop">
+<span class="sig-prename descclassname"><span class="pre">modules.evaluation_functions.bnn_functions.</span></span><span class="sig-name descname"><span class="pre">inference_loop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rng_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Xs_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ys_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_steps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_particles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size_particles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modules.evaluation_functions.bnn_functions.inference_loop" title="Link to this definition">¶</a></dt>
+<dd><p>Performs a full inference loop to train the model on the given data</p>
+<section id="id3">
+<h1>Parameters<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h1>
+<dl class="simple">
+<dt>rng_key</dt><dd><p>Key of type jax._src.prng.PRNGKeyArrayImpl</p>
+</dd>
+<dt>Xs_train</dt><dd><p>X train-data</p>
+</dd>
+<dt>Ys_train</dt><dd><p>Y train-data</p>
+</dd>
+<dt>step_fn</dt><dd><p>Step function of a SVGD object</p>
+</dd>
+<dt>initial_state</dt><dd><p>Initial state of a SVGD object</p>
+</dd>
+<dt>num_steps</dt><dd><p>Number of steps we use in our inference loop</p>
+</dd>
+<dt>num_particles</dt><dd><p>Number of particles</p>
+</dd>
+<dt>batch_size_particles</dt><dd><p>Number of particles contained in one mini-batch</p>
+</dd>
+<dt>batch_size_data</dt><dd><p>Number of datapoints contained in one mini-batch</p>
+</dd>
+</dl>
+</section>
+<section id="id4">
+<h1>Returns<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h1>
+<p>Final state of a SVGD object after performing a full mini-batched inference loop over the data and particles</p>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="modules.evaluation_functions.bnn_functions.logdensity_fn_of_bnn">
+<span class="sig-prename descclassname"><span class="pre">modules.evaluation_functions.bnn_functions.</span></span><span class="sig-name descname"><span class="pre">logdensity_fn_of_bnn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unravel_function</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modules.evaluation_functions.bnn_functions.logdensity_fn_of_bnn" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="modules.evaluation_functions.bnn_functions.loglikelihood_fn">
+<span class="sig-prename descclassname"><span class="pre">modules.evaluation_functions.bnn_functions.</span></span><span class="sig-name descname"><span class="pre">loglikelihood_fn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unravel_function</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modules.evaluation_functions.bnn_functions.loglikelihood_fn" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="modules.evaluation_functions.bnn_functions.logprior_fn">
+<span class="sig-prename descclassname"><span class="pre">modules.evaluation_functions.bnn_functions.</span></span><span class="sig-name descname"><span class="pre">logprior_fn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modules.evaluation_functions.bnn_functions.logprior_fn" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="modules.evaluation_functions.bnn_functions.minibatch_selection">
+<span class="sig-prename descclassname"><span class="pre">modules.evaluation_functions.bnn_functions.</span></span><span class="sig-name descname"><span class="pre">minibatch_selection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_particles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_steps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng_key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modules.evaluation_functions.bnn_functions.minibatch_selection" title="Link to this definition">¶</a></dt>
+<dd><p>Performs a mini-batch selection on the SVGD particles for the inference loop.</p>
+<section id="id5">
+<h1>Parameters<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h1>
+<dl class="simple">
+<dt>num_particles</dt><dd><p>Number of particles</p>
+</dd>
+<dt>num_steps</dt><dd><p>Number of steps we use in our inference loop</p>
+</dd>
+<dt>batch_size</dt><dd><p>Number of particles contained in one mini-batch</p>
+</dd>
+<dt>rng_key</dt><dd><p>Key of type jax._src.prng.PRNGKeyArrayImpl</p>
+</dd>
+</dl>
+</section>
+<section id="id6">
+<h1>Returns<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h1>
+<p>Mini-batched particles for every step of the inference loop</p>
+</section>
+</dd></dl>
+
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">SteinVI</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">DataLoader</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#modules.evaluation_functions.bnn_functions.fit_and_eval"><code class="docutils literal notranslate"><span class="pre">fit_and_eval()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#modules.evaluation_functions.bnn_functions.get_mean_predictions"><code class="docutils literal notranslate"><span class="pre">get_mean_predictions()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#modules.evaluation_functions.bnn_functions.get_predictions"><code class="docutils literal notranslate"><span class="pre">get_predictions()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#modules.evaluation_functions.bnn_functions.get_probabilities"><code class="docutils literal notranslate"><span class="pre">get_probabilities()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#modules.evaluation_functions.bnn_functions.inference_loop"><code class="docutils literal notranslate"><span class="pre">inference_loop()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#modules.evaluation_functions.bnn_functions.logdensity_fn_of_bnn"><code class="docutils literal notranslate"><span class="pre">logdensity_fn_of_bnn()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#modules.evaluation_functions.bnn_functions.loglikelihood_fn"><code class="docutils literal notranslate"><span class="pre">loglikelihood_fn()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#modules.evaluation_functions.bnn_functions.logprior_fn"><code class="docutils literal notranslate"><span class="pre">logprior_fn()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#modules.evaluation_functions.bnn_functions.minibatch_selection"><code class="docutils literal notranslate"><span class="pre">minibatch_selection()</span></code></a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to SteinVI’s documentation!</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, LuisFiegl.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.2.6</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="_sources/bnn_functions.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
