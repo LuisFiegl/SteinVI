@@ -20,7 +20,3 @@ Modules
 Examples
 ==================
 
-.. toctree::
-   :maxdepth: 20
-
-   finance_application

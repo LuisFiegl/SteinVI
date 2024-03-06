@@ -12,7 +12,7 @@ Modules
 ==================
 
 .. toctree::
-   :maxdepth: 20
+   :maxdepth: 2
 
    bnn_functions_linker
    svgd_function_linker
@@ -20,7 +20,3 @@ Modules
 Examples
 ==================
 
-.. toctree::
-   :maxdepth: 20
-
-   finance_application

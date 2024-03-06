@@ -1,0 +1,7 @@
+svgd_function
+==================
+
+.. toctree::
+   :maxdepth: 2
+
+   svgd_function

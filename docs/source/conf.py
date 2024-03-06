@@ -17,11 +17,13 @@ release = '06.03.2024'
 import sys, os
 sys.path.insert(0, os.path.abspath('.'))
 
-extensions = ['sphinx.ext.autodoc']
+extensions = ['sphinx.ext.duration',
+    'sphinx.ext.doctest',
+    'sphinx.ext.autodoc',]
 
 templates_path = ['_templates']
 exclude_patterns = []
-
+source_suffix = ['.rst', '.ipynb']
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -29,3 +31,4 @@ exclude_patterns = []
 
 html_theme = 'alabaster'
 html_static_path = ['_static']
+
