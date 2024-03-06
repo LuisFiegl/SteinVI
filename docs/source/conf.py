@@ -7,8 +7,8 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'SteinVI'
-copyright = '2024, Luis Fiegl'
-author = 'Luis Fiegl'
+copyright = '2024, LuisFiegl'
+author = 'LuisFiegl'
 release = '06.03.2024'
 
 # -- General configuration ---------------------------------------------------
@@ -17,7 +17,7 @@ release = '06.03.2024'
 extensions = []
 
 templates_path = ['_templates']
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = []
 
 
 
