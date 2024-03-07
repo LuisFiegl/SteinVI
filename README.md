@@ -8,13 +8,13 @@
 ## Overview
 
 This repository introduces a **stochastic version of Stein Variational Inference** (also referred to as SVGD: Stein Variational Gradient Descent), based on the JAX and BlackJAX libraries. SVGD is a powerful method for probabilistic modeling and JAX provides high-performance computing and automatic differentiation. We further accellerated the inference procedure by mini-batching the data and SVGD particles. Hereby, we have focussed on the application in Bayesian Neural Networks. Our proposed functions work with arbitrary (unnormalized) posteriors and offer plenty of scope for customisation. This repository also contains example Jupyter notebooks for demonstration.
-Make sure to also check out our [documentation](https://luisfiegl.github.io/SteinVI/) for further explanantion of our modules.
+<br>Make sure to check out our [documentation](https://luisfiegl.github.io/SteinVI/) for further explanantion of the used modules.
 
 ## Example usage:
 
 **Fitting and evaluating a Flax BNN with stochastic SVGD:**
-<br>A simple imple self-contained binary classification problem
-Simulating the datasets:
+<br>A simple self-contained binary classification problem.
+<br>Simulating the datasets:
 ```py
 import jax
 import jax.numpy as jnp
@@ -61,4 +61,4 @@ Ys_pred_train, Ys_pred_test, _, Y_probabilities_train, Y_probabilities_test = fi
 
 ## Note
 
-This repository was created by Luis Fiegl and Jean-Pierre Weideman as part of the *Applied Deep Learning* course at LMU Munich, which took place in the winter term 23/24.
+This repository was created by Luis Fiegl and Jean-Pierre Weideman as part of the *Applied Deep Learning* course at LMU Munich (winter term 2023/24).
