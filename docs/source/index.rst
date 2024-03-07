@@ -13,14 +13,32 @@ Modules
 
 .. toctree::
    :maxdepth: 20
+   :caption: Evaluation Modules:
+   :includehidden:
 
    bnn_functions_linker
    svgd_function_linker
 
+.. toctree::
+   :maxdepth: 20
+   :caption: Functions for the Finance Example:
+   :includehidden:
+
+   finance_functions_linker
+
 Examples
 ==================
 
-.. toctree::
-   :maxdepth: 20
+.. raw:: html
 
-   finance_application
+   <ul>
+       <li><a href="file:///C:/Users/Luis/OneDrive/Desktop/SteinVI/docs/source/single_bnn_withSVGD.html">Simple Moon-Dataset</a></li>
+       <li><a href="file:///C:/Users/Luis/OneDrive/Desktop/SteinVI/docs/source/finance_application.html">Finance</a></li>
+   </ul>
+
+.. toctree::
+   :caption: Examples
+   :hidden:
+
+   single_bnn
+   finance

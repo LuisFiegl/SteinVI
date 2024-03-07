@@ -1,4 +1,0 @@
-.. autoclass:: modules.evaluation_functions.svgd_function
-    :members:
-    :undoc-members:
-    :show-inheritance:

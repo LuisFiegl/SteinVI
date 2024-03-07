@@ -154,3 +154,5 @@ yellowbrick==1.5
 yfinance==0.2.36
 zipp @ file:///home/conda/feedstock_root/build_artifacts/zipp_1674910338934/work
 sphinx>=1.4
+ipykernel
+nbsphinx
