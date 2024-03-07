@@ -1,4 +1,4 @@
-# ignore ALL files in directory named "old" and "docs"
+# ignore ALL files in directory named "old"
 old/
 
 # Byte-compiled / optimized / DLL files

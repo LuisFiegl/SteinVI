@@ -5,8 +5,10 @@
 
 .. raw:: html
 
-   <div style="font-size: 76px; color: black;">Welcome to Stochastic Stein VI</div>
+   <div style="font-size: 50px; color: black;">Welcome to Stochastic Stein VI</div>
 ===================================
+
+This repository introduces a stochastic version of Stein Variational Inference (also referred to as SVGD: Stein Variational Gradient Descent), based on the JAX and BlackJAX libraries. **We accellerated the inference procedure by mini-batching the data and SVGD particles**. Hereby, we have focussed on the application in Bayesian Neural Networks. Our proposed functions work with arbitrary (unnormalized) posteriors and offer plenty of scope for customisation. This repository also contains two example Jupyter notebooks for demonstration. 
 
 Modules
 ==================

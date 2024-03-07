@@ -1,6 +1,4 @@
-import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 
 def get_Daily_Volatility(close,span0=20):
     # simple percentage returns
@@ -18,7 +16,7 @@ def yfinance_labeler(df, hold_period, upper_lower_multipliers):
     df
         Dataframe with daily prices
     hold_period
-        time-span to evaluate the buy/sell signal
+        Time-span to evaluate the buy/sell signal
     upper_lower_multipliers
         Factor of volatility by which the price must rise or fall within the hold_period in order to generate a buy/sell signal
 
@@ -60,7 +58,7 @@ def yfinance_labeler(df, hold_period, upper_lower_multipliers):
             elif index_low_min is not None:
                 labels.append(0)
             else:
-                labels.append(0) #hier könnte das dritte label stehen
+                labels.append(0)
         else:
             labels.append(12)
     df["vola"] = vol_df

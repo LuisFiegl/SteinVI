@@ -1,17 +1,14 @@
 import functools
 from typing import Any, Callable, NamedTuple
-
 import jax
 from jax import jit
 import jax.numpy as jnp
 import optax
 from jax.flatten_util import ravel_pytree
-
 from blackjax.base import SamplingAlgorithm
 from blackjax.types import ArrayLikeTree, ArrayTree, Array
 
 __all__ = ["svgd", "rbf_kernel", "update_median_heuristic"]
-
 
 class SVGDState(NamedTuple):
     particles: ArrayTree
@@ -37,6 +34,7 @@ def init(
         Optax compatible optimizer, which conforms to the `optax.GradientTransformation` protocol
     """
     opt_state = optimizer.init(initial_particles)
+    
     return SVGDState(initial_particles, kernel_parameters, opt_state)
 
 

@@ -3,17 +3,44 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to SteinVI's documentation!
+.. raw:: html
+
+   <div style="font-size: 50px; color: black;">Welcome to Stochastic Stein VI</div>
 ===================================
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+This repository introduces a stochastic version of Stein Variational Inference (also referred to as SVGD: Stein Variational Gradient Descent), based on the JAX and BlackJAX libraries. **We accellerated the inference procedure by mini-batching the data and SVGD particles**. Hereby, we have focussed on the application in Bayesian Neural Networks. Our proposed functions work with arbitrary (unnormalized) posteriors and offer plenty of scope for customisation. This repository also contains two example Jupyter notebooks for demonstration. 
 
-   bnn_functions
-
-Indices and tables
+Modules
 ==================
 
-* :ref:`bnn_functions`
+.. toctree::
+   :maxdepth: 20
+   :caption: Evaluation Modules:
+   :includehidden:
 
+   bnn_functions_linker
+   svgd_function_linker
+
+.. toctree::
+   :maxdepth: 20
+   :caption: Functions for the Finance Example:
+   :includehidden:
+
+   finance_functions_linker
+
+Examples
+==================
+
+.. raw:: html
+
+   <ul>
+       <li><a href="file:///C:/Users/Luis/OneDrive/Desktop/SteinVI/docs/source/single_bnn_withSVGD.html">Simple Moon-Dataset</a></li>
+       <li><a href="file:///C:/Users/Luis/OneDrive/Desktop/SteinVI/docs/source/finance_application.html">Finance</a></li>
+   </ul>
+
+.. toctree::
+   :caption: Examples
+   :hidden:
+
+   single_bnn
+   finance

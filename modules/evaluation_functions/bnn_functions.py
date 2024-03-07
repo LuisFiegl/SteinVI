@@ -1,17 +1,12 @@
 import jax
-
 from functools import partial
 from warnings import filterwarnings
-
 import jax.numpy as jnp
 import numpy as np
 import tensorflow_probability.substrates.jax.distributions as tfd
-
 from jax.flatten_util import ravel_pytree
-
 from tqdm import tqdm
 import optax
-
 import modules.evaluation_functions.svgd_function as svgd_function
 
 filterwarnings("ignore")
@@ -153,27 +148,29 @@ def get_predictions(model, samples, X, rng_key):
     return predictions.squeeze(-1)
 
 def get_mean_predictions(predictions, threshold=0.5):
-    # compute mean prediction and confidence interval around median
     mean_prediction = jnp.mean(predictions, axis=0)
+
     return mean_prediction > threshold
 
 def get_probabilities(predictions):
     probas = jnp.mean(predictions, axis=0)
+
     return probas
 
 def logprior_fn(params):
     leaves, _ = jax.tree_util.tree_flatten(params)
     flat_params = jnp.concatenate([jnp.ravel(a) for a in leaves])
-    return jnp.sum(tfd.Normal(0, 1).log_prob(flat_params))
 
+    return jnp.sum(tfd.Normal(0, 1).log_prob(flat_params))
 
 def loglikelihood_fn(params, X, Y, model, unravel_function):
     params_dict = unravel_function(params)
     logits = jnp.ravel(model.apply(params_dict, X))
+
     return jnp.sum(tfd.Bernoulli(logits).log_prob(Y))
 
-
 def logdensity_fn_of_bnn(params, X, Y, model, unravel_function):
+
     return logprior_fn(params) + loglikelihood_fn(params, X, Y, model, unravel_function)
 
 def fit_and_eval(
@@ -206,7 +203,7 @@ def fit_and_eval(
     X_test
         X test-data
     grid
-        Array as a grid to visualize the estimates
+        Array as a grid to visualize the estimates (set to None if unwanted)
     num_steps
         Number of steps we use in our inference loop
     batch_size_particles
