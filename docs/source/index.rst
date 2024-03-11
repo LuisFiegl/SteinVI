@@ -34,8 +34,8 @@ Examples
 .. raw:: html
 
    <ul>
-       <li><a href="file:///C:/Users/Luis/OneDrive/Desktop/SteinVI/docs/source/single_bnn_withSVGD.html">Simple Moon-Dataset</a></li>
-       <li><a href="file:///C:/Users/Luis/OneDrive/Desktop/SteinVI/docs/source/finance_application.html">Finance</a></li>
+       <li><a href="single_bnn_withSVGD.html">Simple Moon-Dataset</a></li>
+       <li><a href="finance_application.html">Finance</a></li>
    </ul>
 
 .. toctree::
