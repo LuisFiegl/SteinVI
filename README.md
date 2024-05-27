@@ -61,4 +61,4 @@ Ys_pred_train, Ys_pred_test, _, Y_probabilities_train, Y_probabilities_test = fi
 
 ## Note
 
-This repository was created by Luis Fiegl and Jean-Pierre Weideman as part of the *Applied Deep Learning* course at LMU Munich (winter term 2023/24).
+This repository was created by Luis Fiegl and John-Pierre Weideman as part of the *Applied Deep Learning* course at LMU Munich (winter term 2023/24).
