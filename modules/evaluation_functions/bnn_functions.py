@@ -41,7 +41,8 @@ def minibatch_selection(num_particles, num_steps, batch_size, rng_key):
     keys_to_iterate = jax.random.split(rng_key, num=num_epochs)
 
     for key in keys_to_iterate:
-        shuffled = jax.random.shuffle(key, all_params)
+        #shuffled = jax.random.shuffle(key, all_params)
+        shuffled = jax.random.permutation(key, all_params, independent=True)  # Replace shuffle with permutation
         for i in range(num_batches_per_epoch):
             batch = shuffled[i*batch_size:(i+1)*batch_size]
 
