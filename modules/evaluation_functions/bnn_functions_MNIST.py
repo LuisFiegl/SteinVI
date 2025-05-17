@@ -144,20 +144,23 @@ def inference_loop(rng_key, Xs_train, Ys_train, step_fn, initial_state, num_step
 
 def get_predictions(model, samples, X, rng_key):
     vectorized_apply = jax.vmap(model.apply, in_axes=(0, None), out_axes=0)
-    z = vectorized_apply(samples, X)
-    predictions = tfd.Bernoulli(logits=z).sample(seed=rng_key)
+    logits = vectorized_apply(samples, X)  # shape: (n_particles, batch, 10)
+    predictions = tfd.Categorical(logits=logits).sample(seed=rng_key)  # shape: (n_particles, batch)
+    return predictions
 
-    return predictions.squeeze(-1)
+def get_mean_predictions(predictions, num_classes=10):
+    # predictions: (n_particles, batch)
+    # Returns: (batch,)
+    # Use one-hot encoding and sum to get the most frequent class
+    one_hot = jax.nn.one_hot(predictions, num_classes)  # (n_particles, batch, num_classes)
+    counts = jnp.sum(one_hot, axis=0)  # (batch, num_classes)
+    return jnp.argmax(counts, axis=-1)  # (batch,)
 
-def get_mean_predictions(predictions, threshold=0.5):
-    mean_prediction = jnp.mean(predictions, axis=0)
-
-    return mean_prediction > threshold
-
-def get_probabilities(predictions):
-    probas = jnp.mean(predictions, axis=0)
-
-    return probas
+def get_probabilities(predictions, num_classes=10):
+    # predictions: (n_particles, batch)
+    # Returns: (batch, num_classes)
+    one_hot = jax.nn.one_hot(predictions, num_classes)
+    return jnp.mean(one_hot, axis=0)
 
 def logprior_fn(params):
     leaves, _ = jax.tree_util.tree_flatten(params)
