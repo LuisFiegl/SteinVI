@@ -44,3 +44,5 @@ Examples
 
    single_bnn
    finance
+   SVGD_idea
+   MNIST_application

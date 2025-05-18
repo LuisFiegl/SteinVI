@@ -7,8 +7,8 @@
 
 ## Overview
 
-This repository introduces a **randomized version of Stein Variational Inference** (also referred to as SVGD: Stein Variational Gradient Descent), based on the JAX and BlackJAX libraries. SVGD is a powerful method for probabilistic modeling and JAX provides high-performance computing and automatic differentiation. We further accellerated the inference procedure by mini-batching the data and SVGD particles. Hereby, we have focussed on the application in Bayesian Neural Networks. Our proposed functions work with arbitrary (unnormalized) posteriors and offer plenty of scope for customisation. This repository also contains example Jupyter notebooks for demonstration.
-<br>Make sure to check out our [documentation](https://luisfiegl.github.io/SteinVI/) for further explanantion of the used modules.
+This repository introduces a **randomized version of Stein Variational Inference** (also referred to as SVGD: Stein Variational Gradient Descent), based on the JAX and BlackJAX libraries. SVGD is a method for probabilistic modeling and JAX provides high-performance computing and automatic differentiation. We further accellerated the inference procedure by mini-batching the data and SVGD particles. Hereby, we have focussed on the application in Bayesian Neural Networks. Our proposed functions work with arbitrary (unnormalized) posteriors and offer plenty of scope for customisation. This repository also contains example Jupyter notebooks for demonstration.
+<br>Check out our [documentation](https://luisfiegl.github.io/SteinVI/) for further explanantion of the used modules.
 
 ## Example usage:
 
