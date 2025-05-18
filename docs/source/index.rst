@@ -44,15 +44,5 @@ Examples
 
    single_bnn
    finance
-   svgd_function
-   bnn_functions
-   mnist_example
-
-.. toctree::
-   :caption: Contents:
-
-   single_bnn
-   finance
-   svgd_function
-   bnn_functions
-   mnist_example
+   SVGD_idea
+   MNIST_application
