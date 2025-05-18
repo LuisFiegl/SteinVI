@@ -101,6 +101,7 @@ pyproj==3.5.0
 PySocks==1.7.1
 pyspnego==0.8.0
 python-dateutil==2.9.0.post0
+python-dateutil==2.9.0.post0
 pytz==2022.7.1
 pytz-deprecation-shim==0.1.0.post0
 PyYAML==6.0.1
@@ -153,3 +154,4 @@ yellowbrick==1.5
 yfinance==0.2.36
 zipp==3.21.0
 sphinx>=1.4
+seaborn
