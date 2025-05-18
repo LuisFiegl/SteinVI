@@ -20,6 +20,7 @@ Modules
 
    bnn_functions_linker
    svgd_function_linker
+   mnist_functions
 
 .. toctree::
    :maxdepth: 20
