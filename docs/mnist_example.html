@@ -1,0 +1,180 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MNIST SVGD Classification Example &mdash; SteinVI 06.03.2024 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=772a9b84"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="SVGD Idea Presentation" href="SVGD_idea.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            SteinVI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Evaluation Modules:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="bnn_functions_linker.html">bnn_functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="svgd_function_linker.html">svgd_function</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Functions for the Finance Example:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="finance_functions_linker.html">finance_functions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="single_bnn.html">Simple Moon-Dataset</a></li>
+<li class="toctree-l1"><a class="reference internal" href="finance.html">Finance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SVGD_idea.html">SVGD Idea Presentation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">MNIST SVGD Classification Example</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#related-code">Related Code</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SteinVI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">MNIST SVGD Classification Example</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/mnist_example.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="mnist-svgd-classification-example">
+<h1>MNIST SVGD Classification Example<a class="headerlink" href="#mnist-svgd-classification-example" title="Link to this heading"></a></h1>
+<p>This example demonstrates how to use Stein Variational Gradient Descent (SVGD) for Bayesian neural network (BNN) inference on the MNIST dataset for multi-class classification.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Uses a multi-layer perceptron (MLP) with Flax/JAX.</p></li>
+<li><p>Inference is performed using SVGD, implemented in <cite>modules/evaluation_functions/bnn_functions_MNIST.py</cite>.</p></li>
+<li><p>The model outputs 10 logits (one per MNIST class).</p></li>
+<li><p>The code is compatible with JAX transformations and multi-class classification.</p></li>
+</ul>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
+<ol class="arabic">
+<li><p>Prepare the MNIST dataset using scikit-learn’s <cite>fetch_openml</cite> and preprocess as needed.</p></li>
+<li><p>Define the neural network model:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">NN</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="n">n_hidden_layers</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">layer_width</span><span class="p">:</span> <span class="nb">int</span>
+
+    <span class="nd">@nn</span><span class="o">.</span><span class="n">compact</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_hidden_layers</span><span class="p">):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">features</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">layer_width</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">features</span><span class="o">=</span><span class="mi">10</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># 10 classes for MNIST</span>
+</pre></div>
+</div>
+</li>
+<li><p>Use the functions from <cite>modules/evaluation_functions/bnn_functions_MNIST.py</cite> to perform SVGD inference:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">modules.evaluation_functions.bnn_functions_MNIST</span><span class="w"> </span><span class="kn">import</span> <span class="n">fit_and_eval</span><span class="p">,</span> <span class="n">logdensity_fn_of_bnn</span>
+<span class="c1"># ... set up model, data, and rng_key ...</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">fit_and_eval</span><span class="p">(</span>
+    <span class="n">rng_key</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">logdensity_fn_of_bnn</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span>
+    <span class="n">grid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num_steps</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">batch_size_particles</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">batch_size_data</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">num_particles</span><span class="o">=</span><span class="mi">100</span>
+<span class="p">)</span>
+<span class="n">Ys_pred_train</span><span class="p">,</span> <span class="n">Ys_pred_test</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">results</span>
+</pre></div>
+</div>
+</li>
+<li><p>Compute accuracy:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">train_acc</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ys_pred_train</span> <span class="o">==</span> <span class="n">y_train</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">test_acc</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ys_pred_test</span> <span class="o">==</span> <span class="n">y_test</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Train accuracy: </span><span class="si">{</span><span class="n">train_acc</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test accuracy: </span><span class="si">{</span><span class="n">test_acc</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="related-code">
+<h2>Related Code<a class="headerlink" href="#related-code" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">modules.evaluation_functions.bnn_functions_MNIST</span></code></p></li>
+<li><p><a class="reference internal" href="svgd_function.html#module-modules.evaluation_functions.svgd_function" title="modules.evaluation_functions.svgd_function"><code class="xref py py-mod docutils literal notranslate"><span class="pre">modules.evaluation_functions.svgd_function</span></code></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="SVGD_idea.html" class="btn btn-neutral float-left" title="SVGD Idea Presentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, LuisFiegl.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
