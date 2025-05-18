@@ -14,8 +14,9 @@ release = '06.03.2024'
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-import sys, os
-sys.path.insert(0, os.path.abspath('.'))
+import os
+import sys
+sys.path.insert(0, os.path.abspath('../..'))
 
 extensions = ['sphinx.ext.duration',
     'sphinx.ext.doctest',
