@@ -252,41 +252,6 @@ Probabilities for the target variable Y (being 1) on the test-data</p>
 </section>
 </dd></dl>
 
-<p><strong>Main Functions and Classes:</strong></p>
-<ul>
-<li><p><strong>minibatch_selection</strong></p>
-<p>Performs mini-batch selection on SVGD particles for the inference loop.</p>
-</li>
-<li><p><strong>DataLoader</strong></p>
-<p>Class for mini-batch selection on data for the inference loop. Provides an iterator over mini-batches.</p>
-</li>
-<li><p><strong>inference_loop</strong></p>
-<p>Runs the SVGD inference loop with mini-batching over data and particles.</p>
-</li>
-<li><p><strong>get_predictions</strong></p>
-<p>Returns class predictions for each sample using the ensemble of BNN particles (multi-class, using Categorical).</p>
-</li>
-<li><p><strong>get_mean_predictions</strong></p>
-<p>Computes the most likely class for each sample by taking the mode across particles (multi-class).</p>
-</li>
-<li><p><strong>get_probabilities</strong></p>
-<p>Returns class probabilities for each sample by averaging over particles (multi-class).</p>
-</li>
-<li><p><strong>logprior_fn</strong></p>
-<p>Computes the log prior probability of the BNN parameters.</p>
-</li>
-<li><p><strong>loglikelihood_fn</strong></p>
-<p>Computes the log likelihood of the data under the BNN model (multi-class, using Categorical).</p>
-</li>
-<li><p><strong>logdensity_fn_of_bnn</strong></p>
-<p>Returns the unnormalized log posterior for the BNN.</p>
-</li>
-<li><p><strong>fit_and_eval</strong></p>
-<p>Fits a BNN on train data using SVGD and evaluates on test data. Returns predictions and probabilities for train and test sets.</p>
-</li>
-</ul>
-<p><strong>Usage:</strong>
-See the <a class="reference internal" href="mnist_example.html"><span class="doc">MNIST SVGD Classification Example</span></a> for a full example of how to use these functions for multi-class classification on MNIST.</p>
 </section>
 
 
