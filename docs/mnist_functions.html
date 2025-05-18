@@ -3,24 +3,24 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Search &mdash; SteinVI 06.03.2024 documentation</title>
+  <title>MNIST Multi-Class Classification Functions &mdash; SteinVI 06.03.2024 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
-    
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=772a9b84"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
-    <script src="_static/searchtools.js"></script>
-    <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="#" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="finance_functions" href="finance_functions_linker.html" />
+    <link rel="prev" title="Parameters" href="svgd_function.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -35,7 +35,7 @@
             SteinVI
           </a>
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="#" method="get">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -43,10 +43,10 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Evaluation Modules:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="bnn_functions_linker.html">bnn_functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="svgd_function_linker.html">svgd_function</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mnist_functions.html">MNIST Multi-Class Classification Functions</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">MNIST Multi-Class Classification Functions</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Functions for the Finance Example:</span></p>
 <ul>
@@ -74,8 +74,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Search</li>
+      <li class="breadcrumb-item active">MNIST Multi-Class Classification Functions</li>
       <li class="wy-breadcrumbs-aside">
+            <a href="_sources/mnist_functions.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -83,22 +84,52 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <noscript>
-  <div id="fallback" class="admonition warning">
-    <p class="last">
-      Please activate JavaScript to enable the search functionality.
-    </p>
-  </div>
-  </noscript>
+  <section id="mnist-multi-class-classification-functions">
+<h1>MNIST Multi-Class Classification Functions<a class="headerlink" href="#mnist-multi-class-classification-functions" title="Link to this heading"></a></h1>
+<p><strong>Main Functions and Classes:</strong></p>
+<ul>
+<li><p><strong>minibatch_selection</strong></p>
+<p>Performs mini-batch selection on SVGD particles for the inference loop.</p>
+</li>
+<li><p><strong>DataLoader</strong></p>
+<p>Class for mini-batch selection on data for the inference loop. Provides an iterator over mini-batches.</p>
+</li>
+<li><p><strong>inference_loop</strong></p>
+<p>Runs the SVGD inference loop with mini-batching over data and particles.</p>
+</li>
+<li><p><strong>get_predictions</strong></p>
+<p>Returns class predictions for each sample using the ensemble of BNN particles (multi-class, using Categorical).</p>
+</li>
+<li><p><strong>get_mean_predictions</strong></p>
+<p>Computes the most likely class for each sample by taking the mode across particles (multi-class).</p>
+</li>
+<li><p><strong>get_probabilities</strong></p>
+<p>Returns class probabilities for each sample by averaging over particles (multi-class).</p>
+</li>
+<li><p><strong>logprior_fn</strong></p>
+<p>Computes the log prior probability of the BNN parameters.</p>
+</li>
+<li><p><strong>loglikelihood_fn</strong></p>
+<p>Computes the log likelihood of the data under the BNN model (multi-class, using Categorical).</p>
+</li>
+<li><p><strong>logdensity_fn_of_bnn</strong></p>
+<p>Returns the unnormalized log posterior for the BNN.</p>
+</li>
+<li><p><strong>fit_and_eval</strong></p>
+<p>Fits a BNN on train data using SVGD and evaluates on test data. Returns predictions and probabilities for train and test sets.</p>
+</li>
+</ul>
+<p><strong>Usage:</strong>
+See the <a class="reference internal" href="mnist_example.html"><span class="doc">MNIST SVGD Classification Example</span></a> for a full example of how to use these functions for multi-class classification on MNIST.</p>
+</section>
 
-  
-  <div id="search-results">
-  
-  </div>
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="svgd_function.html" class="btn btn-neutral float-left" title="Parameters" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="finance_functions_linker.html" class="btn btn-neutral float-right" title="finance_functions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 
@@ -120,14 +151,7 @@
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-  <script>
-    jQuery(function() { Search.loadIndex("searchindex.js"); });
-  </script>
-  
-  <script id="searchindexloader"></script>
-   
-
+  </script> 
 
 </body>
 </html>
