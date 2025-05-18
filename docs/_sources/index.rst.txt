@@ -36,6 +36,8 @@ Examples
    <ul>
        <li><a href="single_bnn_withSVGD.html">Simple Moon-Dataset</a></li>
        <li><a href="finance_application.html">Finance</a></li>
+       <li><a href="mnist_example.html">MNIST SVGD Classification</a></li>
+       <li><a href="SVGD_idea.html">SVGD Idea Presentation</a></li>
    </ul>
 
 .. toctree::
@@ -44,3 +46,5 @@ Examples
 
    single_bnn
    finance
+   SVGD_idea
+   mnist_example
