@@ -1,13 +1,10 @@
 SVGD Idea Presentation
-=====================
+======================
 
-This section presents the SVGD (Stein Variational Gradient Descent) idea and its application in Bayesian inference.
+.. toctree::
+   :maxdepth: 1
 
-The full interactive notebook is available in the repository at:
-
-    applications/SVGD_idea_presentation.ipynb
-
-To view or run the notebook, open it in Jupyter or a compatible environment.
+   ../../applications/SVGD_idea_presentation.ipynb
 
 Summary
 -------

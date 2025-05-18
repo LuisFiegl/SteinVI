@@ -1,5 +1,10 @@
 MNIST SVGD Classification Example
-===============================
+=================================
+
+.. toctree::
+   :maxdepth: 1
+
+   ../../applications/MNIST_application.ipynb
 
 This example demonstrates how to use Stein Variational Gradient Descent (SVGD) for Bayesian neural network (BNN) inference on the MNIST dataset for multi-class classification.
 
