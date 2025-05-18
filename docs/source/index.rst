@@ -27,7 +27,7 @@ Modules
    :caption: Functions for the MNIST Example:
    :includehidden:
 
-   mnist_functions
+   mnist_functions_linker
 
 .. toctree::
    :maxdepth: 20
