@@ -43,10 +43,25 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Evaluation Modules:</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="bnn_functions_linker.html">bnn_functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="svgd_function_linker.html">svgd_function</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">MNIST Multi-Class Classification Functions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Functions for the MNIST Example:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">MNIST Multi-Class Classification Functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#modules.application_functions.bnn_functions_MNIST.DataLoader"><code class="docutils literal notranslate"><span class="pre">DataLoader</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modules.application_functions.bnn_functions_MNIST.fit_and_eval"><code class="docutils literal notranslate"><span class="pre">fit_and_eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modules.application_functions.bnn_functions_MNIST.get_mean_predictions"><code class="docutils literal notranslate"><span class="pre">get_mean_predictions()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modules.application_functions.bnn_functions_MNIST.get_predictions"><code class="docutils literal notranslate"><span class="pre">get_predictions()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modules.application_functions.bnn_functions_MNIST.get_probabilities"><code class="docutils literal notranslate"><span class="pre">get_probabilities()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modules.application_functions.bnn_functions_MNIST.inference_loop"><code class="docutils literal notranslate"><span class="pre">inference_loop()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modules.application_functions.bnn_functions_MNIST.logdensity_fn_of_bnn"><code class="docutils literal notranslate"><span class="pre">logdensity_fn_of_bnn()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modules.application_functions.bnn_functions_MNIST.loglikelihood_fn"><code class="docutils literal notranslate"><span class="pre">loglikelihood_fn()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modules.application_functions.bnn_functions_MNIST.logprior_fn"><code class="docutils literal notranslate"><span class="pre">logprior_fn()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modules.application_functions.bnn_functions_MNIST.minibatch_selection"><code class="docutils literal notranslate"><span class="pre">minibatch_selection()</span></code></a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Functions for the Finance Example:</span></p>
 <ul>
@@ -84,8 +99,159 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="mnist-multi-class-classification-functions">
-<h1>MNIST Multi-Class Classification Functions<a class="headerlink" href="#mnist-multi-class-classification-functions" title="Link to this heading"></a></h1>
+  <section id="module-modules.application_functions.bnn_functions_MNIST">
+<span id="mnist-multi-class-classification-functions"></span><h1>MNIST Multi-Class Classification Functions<a class="headerlink" href="#module-modules.application_functions.bnn_functions_MNIST" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="modules.application_functions.bnn_functions_MNIST.DataLoader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modules.application_functions.bnn_functions_MNIST.</span></span><span class="sig-name descname"><span class="pre">DataLoader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modules.application_functions.bnn_functions_MNIST.DataLoader" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to perform a mini-batch selection on the data for the inference loop.</p>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>X</dt><dd><p>X data</p>
+</dd>
+<dt>Y</dt><dd><p>Y data</p>
+</dd>
+<dt>batch_size</dt><dd><p>Number of datapoints contained in one mini-batch</p>
+</dd>
+<dt>shuffle</dt><dd><p>If True: Randomly shuffle the minibatches across all given datapoints</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h2>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h2>
+<p>Mini-batched datapoints which can be accessed by calling the next() function</p>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="modules.application_functions.bnn_functions_MNIST.fit_and_eval">
+<span class="sig-prename descclassname"><span class="pre">modules.application_functions.bnn_functions_MNIST.</span></span><span class="sig-name descname"><span class="pre">fit_and_eval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rng_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logdensity_fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">400</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size_particles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_particles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modules.application_functions.bnn_functions_MNIST.fit_and_eval" title="Link to this definition"></a></dt>
+<dd><p>Fits a BNN on train-data using Stein-Variational-Gradient-Descent (SVGD) and evaluates it on test-data</p>
+<section id="id1">
+<h2>Parameters<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>rng_key</dt><dd><p>Key of type jax._src.prng.PRNGKeyArrayImpl</p>
+</dd>
+<dt>model</dt><dd><p>(FLAX linen) BNN model</p>
+</dd>
+<dt>logdensity_fn</dt><dd><p>Target log density function</p>
+</dd>
+<dt>X_train</dt><dd><p>X train-data</p>
+</dd>
+<dt>Y_train</dt><dd><p>Y train-data</p>
+</dd>
+<dt>X_test</dt><dd><p>X test-data</p>
+</dd>
+<dt>grid</dt><dd><p>Array as a grid to visualize the estimates (set to None if unwanted)</p>
+</dd>
+<dt>num_steps</dt><dd><p>Number of steps we use in our inference loop</p>
+</dd>
+<dt>batch_size_particles</dt><dd><p>Number of particles contained in one mini-batch</p>
+</dd>
+<dt>batch_size_data</dt><dd><p>Number of datapoints contained in one mini-batch</p>
+</dd>
+<dt>num_particles</dt><dd><p>Number of particles</p>
+</dd>
+</dl>
+</section>
+<section id="id2">
+<h2>Returns<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p>Predictions for the target variable Y on the train-data
+Predictions for the target variable Y on the test-data
+(Optional) A grid to visualize the uncertainty of the predictions
+Probabilities for the target variable Y (being 1) on the train-data
+Probabilities for the target variable Y (being 1) on the test-data</p>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="modules.application_functions.bnn_functions_MNIST.get_mean_predictions">
+<span class="sig-prename descclassname"><span class="pre">modules.application_functions.bnn_functions_MNIST.</span></span><span class="sig-name descname"><span class="pre">get_mean_predictions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_classes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modules.application_functions.bnn_functions_MNIST.get_mean_predictions" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="modules.application_functions.bnn_functions_MNIST.get_predictions">
+<span class="sig-prename descclassname"><span class="pre">modules.application_functions.bnn_functions_MNIST.</span></span><span class="sig-name descname"><span class="pre">get_predictions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng_key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modules.application_functions.bnn_functions_MNIST.get_predictions" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="modules.application_functions.bnn_functions_MNIST.get_probabilities">
+<span class="sig-prename descclassname"><span class="pre">modules.application_functions.bnn_functions_MNIST.</span></span><span class="sig-name descname"><span class="pre">get_probabilities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_classes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modules.application_functions.bnn_functions_MNIST.get_probabilities" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="modules.application_functions.bnn_functions_MNIST.inference_loop">
+<span class="sig-prename descclassname"><span class="pre">modules.application_functions.bnn_functions_MNIST.</span></span><span class="sig-name descname"><span class="pre">inference_loop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rng_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Xs_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ys_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_steps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_particles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size_particles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modules.application_functions.bnn_functions_MNIST.inference_loop" title="Link to this definition"></a></dt>
+<dd><p>Performs a full inference loop to train the model on the given data</p>
+<section id="id3">
+<h2>Parameters<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>rng_key</dt><dd><p>Key of type jax._src.prng.PRNGKeyArrayImpl</p>
+</dd>
+<dt>Xs_train</dt><dd><p>X train-data</p>
+</dd>
+<dt>Ys_train</dt><dd><p>Y train-data</p>
+</dd>
+<dt>step_fn</dt><dd><p>Step function of a SVGD object</p>
+</dd>
+<dt>initial_state</dt><dd><p>Initial state of a SVGD object</p>
+</dd>
+<dt>num_steps</dt><dd><p>Number of steps we use in our inference loop</p>
+</dd>
+<dt>num_particles</dt><dd><p>Number of particles</p>
+</dd>
+<dt>batch_size_particles</dt><dd><p>Number of particles contained in one mini-batch</p>
+</dd>
+<dt>batch_size_data</dt><dd><p>Number of datapoints contained in one mini-batch</p>
+</dd>
+</dl>
+</section>
+<section id="id4">
+<h2>Returns<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<p>Final state of a SVGD object after performing a full mini-batched inference loop over the data and particles</p>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="modules.application_functions.bnn_functions_MNIST.logdensity_fn_of_bnn">
+<span class="sig-prename descclassname"><span class="pre">modules.application_functions.bnn_functions_MNIST.</span></span><span class="sig-name descname"><span class="pre">logdensity_fn_of_bnn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unravel_function</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modules.application_functions.bnn_functions_MNIST.logdensity_fn_of_bnn" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="modules.application_functions.bnn_functions_MNIST.loglikelihood_fn">
+<span class="sig-prename descclassname"><span class="pre">modules.application_functions.bnn_functions_MNIST.</span></span><span class="sig-name descname"><span class="pre">loglikelihood_fn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unravel_function</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modules.application_functions.bnn_functions_MNIST.loglikelihood_fn" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="modules.application_functions.bnn_functions_MNIST.logprior_fn">
+<span class="sig-prename descclassname"><span class="pre">modules.application_functions.bnn_functions_MNIST.</span></span><span class="sig-name descname"><span class="pre">logprior_fn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modules.application_functions.bnn_functions_MNIST.logprior_fn" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="modules.application_functions.bnn_functions_MNIST.minibatch_selection">
+<span class="sig-prename descclassname"><span class="pre">modules.application_functions.bnn_functions_MNIST.</span></span><span class="sig-name descname"><span class="pre">minibatch_selection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_particles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_steps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng_key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modules.application_functions.bnn_functions_MNIST.minibatch_selection" title="Link to this definition"></a></dt>
+<dd><p>Performs a mini-batch selection on the SVGD particles for the inference loop.</p>
+<section id="id5">
+<h2>Parameters<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>num_particles</dt><dd><p>Number of particles</p>
+</dd>
+<dt>num_steps</dt><dd><p>Number of steps we use in our inference loop</p>
+</dd>
+<dt>batch_size</dt><dd><p>Number of particles contained in one mini-batch</p>
+</dd>
+<dt>rng_key</dt><dd><p>Key of type jax._src.prng.PRNGKeyArrayImpl</p>
+</dd>
+</dl>
+</section>
+<section id="id6">
+<h2>Returns<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<p>Mini-batched particles for every step of the inference loop</p>
+</section>
+</dd></dl>
+
 <p><strong>Main Functions and Classes:</strong></p>
 <ul>
 <li><p><strong>minibatch_selection</strong></p>
